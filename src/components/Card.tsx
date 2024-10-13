@@ -1,23 +1,22 @@
 import { Link } from "react-router-dom";
-import { localStorageToken, resultProduct } from "../types/types";
+import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
 
 export default function Card(props: resultProduct) {
   const handleAddToCart = async () => {
     try {
-      const token: localStorageToken = JSON.parse(localStorage.getItem("access_token") as string)
+      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
       const user_id = localStorage.getItem("user_id")
 
-      const { data } = await api.post(`shopping-cart/add-product/${user_id}`, {
+      await api.post(`shopping-cart/add-product/${user_id}`, {
         product_id: props.id,
         quantity: 1
       }, {
         headers: {
-          access_token: token?.access_token
+          access_token: token
         },
         
       })
-    console.log(data)
     } catch (error) {
       console.error(error)
     }

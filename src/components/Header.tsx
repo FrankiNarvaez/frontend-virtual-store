@@ -85,16 +85,16 @@ export default function Header() {
             <FaUser className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />
           </div>
           {showDropDownProfile && (
-            <div className="absolute top-20 w-32 h-52 bg-white shadow-lg rounded-md p-3 flex flex-col gap-2">
+            <div className="absolute top-20 w-32 h-52 bg-[rgba(3,7,18,0.5)] backdrop-blur-2xl shadow-lg rounded-md p-3 flex flex-col gap-2">
               {isLoggedIn === "true" && (
                 <>
-                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/profile" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
-                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/orders" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
-                  <button onClick={handleLogout} className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Sign Out</button>
+                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/profile" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
+                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/orders" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
+                  <button onClick={handleLogout} className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign Out</button>
                 </>
               )}
               {isLoggedIn === "false" && (
-                <Link to="/login" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Sign In</Link>
+                <Link to="/login" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign In</Link>
               )}
             </div>
           )}

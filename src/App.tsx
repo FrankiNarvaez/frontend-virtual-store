@@ -5,6 +5,9 @@ import Product from "./pages/Product";
 import Search from "./pages/Search";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Orders from "./pages/Orders";
+import Cart from "./pages/Cart";
+import Profile from "./pages/Profile";
 import { useEffect } from "react";
 import { localStorageToken } from "./types/types";
 
@@ -18,7 +21,7 @@ function App() {
     if (timeToExpyreToken) {
       if (timeNow.getTime() > timeToExpyreToken?.expiry) {
         localStorage.removeItem("access_token")
-        localStorage.setItem("isLoggedIn", "false")
+        localStorage.removeItem("user")
       }
     }
   }, [])
@@ -32,6 +35,9 @@ function App() {
         <Route path="/search" element={ <Search /> } />
         <Route path="/login" element={ <Login /> } />
         <Route path="/register" element={ <Register /> } />
+        <Route path="/cart" element={ <Cart /> } />
+        <Route path="/orders" element={ <Orders /> } />
+        <Route path="/profile" element={ <Profile /> } />
       </Routes>
     </>
   )

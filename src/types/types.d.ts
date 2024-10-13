@@ -37,7 +37,7 @@ export type resulCartProducts = {
 }
 
 export type productCartProps = {
-  id?: string;
+  id: string;
   image: string;
   name: string;
   price: number;

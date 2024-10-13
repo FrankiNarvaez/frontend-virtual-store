@@ -1,10 +1,10 @@
 export type resultProduct = {
-  description: string;
+  description?: string;
   id: string;
   image: string;
   name: string;
   price: number;
-  stock: number;
+  stock?: number;
 }
 
 export type user = {
@@ -23,4 +23,23 @@ export type responseLogin = {
 export type localStorageToken = {
   access_token: string;
   expiry: number;
+}
+
+export type cartProduct = {
+  id: string;
+  quantity: string;
+  product: resultProduct;
+}
+
+export type resulCartProducts = {
+  id: string;
+  products_includes: cartProduct[];
+}
+
+export type productCartProps = {
+  id?: string;
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
 }

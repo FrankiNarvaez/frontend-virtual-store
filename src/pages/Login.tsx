@@ -27,6 +27,7 @@ export default function Login() {
         localStorage.setItem("access_token", JSON.stringify(item))
         localStorage.setItem("isLoggedIn", "true")
         localStorage.setItem("role", data.user.role)
+        localStorage.setItem("user_id", data.user.id)
   
         navigate("/")
       } 

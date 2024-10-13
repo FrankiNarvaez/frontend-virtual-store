@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { responseLogin } from "../types/types";
+import { toast } from "sonner";
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -25,11 +26,16 @@ export default function Login() {
           access_token: data.access_token,
           expiry: timeNow.getTime() + 1 * 60 * 60 * 1000,
         }
-        localStorage.setItem("access_token", JSON.stringify(item))
-        localStorage.setItem("isLoggedIn", "true")
-        localStorage.setItem("role", data.user.role)
-        localStorage.setItem("user_id", data.user.id)
+        localStorage.setItem("access_token", JSON.stringify(item));
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("user_id", data.user.id);
   
+        toast.success(
+          <aside className="p-4">Login successfull</aside>, {
+          position: "top-right"
+        })
+
         navigate("/")
       } 
     } catch (error: any) {

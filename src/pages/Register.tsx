@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
+import { toast } from "sonner";
 
 export default function Register() {
   const [name, setName] = useState("")
@@ -18,6 +19,11 @@ export default function Register() {
         name, email, password, role
       })
       if (data) {
+        toast.success(
+          <aside className="p-4">Register successful</aside>, {
+          position: "top-right"
+        })
+
         navigate("/login")
       }
     } catch (error: any) {

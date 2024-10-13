@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
+import { toast } from "sonner";
 
 export default function Card(props: resultProduct) {
   const handleAddToCart = async () => {
@@ -15,10 +16,17 @@ export default function Card(props: resultProduct) {
         headers: {
           access_token: token
         },
-        
+      })
+      toast.success(
+        <aside className="p-4">{props.name} added to the cart</aside>, {
+        position: "top-right"
       })
     } catch (error) {
       console.error(error)
+      toast.error(
+        <aside className="p-4">{props.name} couldn't be added to the cart</aside>, {
+        position: "top-right"
+      })
     }
   }
 

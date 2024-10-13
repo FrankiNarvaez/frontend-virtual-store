@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { api } from "../lib/api"
 import { cartProduct, resulCartProducts } from "../types/types"
 import ProductCart from "../components/ProductCart"
+import { toast } from "sonner"
 
 export default function Cart() {
   const [products, setProducts] = useState<cartProduct[]>()
@@ -24,32 +25,44 @@ export default function Cart() {
     } catch (error) {
       console.log(error)
     }
-  }, [])
+  }, [products])
 
   const handleBuyProducts = async () => {
-    const productsToOrder = products?.map((product) => {
-      return {
-        product_id: product.product.id,
-        quantity: product.quantity
-      }
-    })
-    const user_id = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+    try {
+      const productsToOrder = products?.map((product) => {
+        return {
+          product_id: product.product.id,
+          quantity: product.quantity
+        }
+      })
+      const user_id = localStorage.getItem("user_id")
+      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+  
+      await api.post(`orders/create/${user_id}`, {
+        products: productsToOrder
+      }, {
+        headers: {
+          access_token: token
+        }
+      })
 
-    await api.post(`orders/create/${user_id}`, {
-      products: productsToOrder
-    }, {
-      headers: {
-        access_token: token
-      }
-    })
+      toast.success(
+        <aside className="p-4">Products Bought</aside>, {
+        position: "top-right"
+      })
+    } catch (error) {
+      toast.error(
+        <aside className="p-4">Error to buy the products, try in a moment</aside>, {
+        position: "top-right"
+      })
+      console.error(error)
+    }
   }
 
   let total = 0
   return (
     <section className="px-[5%] lg:px-[10%] 2xl:px-[15%] mt-5 flex flex-col gap-5">
       {products?.map((product) => {
-        // Acumulamos el total
         total += +product.quantity * +product.product.price;
         return (
           <ProductCart

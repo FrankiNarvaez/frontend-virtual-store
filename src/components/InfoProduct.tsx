@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
 import { useParams } from 'react-router-dom'
+import { toast } from "sonner";
 
 export default function InfoProduct() {
   const { id } = useParams()
@@ -28,8 +29,16 @@ export default function InfoProduct() {
         },
         
       })
+      toast.success(
+        <aside className="p-4">{product?.name} added to the cart</aside>, {
+        position: "top-right"
+      })
     } catch (error) {
       console.error(error)
+      toast.error(
+        <aside className="p-4">{product?.name} couldn't be added to the cart</aside>, {
+        position: "top-right"
+      })
     }
   }
 

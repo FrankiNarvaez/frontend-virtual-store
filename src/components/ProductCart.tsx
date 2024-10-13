@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { productCartProps } from "../types/types"
 import { FaTrash } from "react-icons/fa";
 import { api } from "../lib/api";
+import { toast } from "sonner";
 
 export default function ProductCard({ id, image, name, price, quantity: InitialQuantity }: productCartProps) {
   const [quantity, setQuantity] = useState(InitialQuantity)
@@ -14,16 +15,28 @@ export default function ProductCard({ id, image, name, price, quantity: InitialQ
   const handleRemove = async () => {
     const user_id = localStorage.getItem("user_id")
     const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
-
+    
     if (user_id) {
-      await api.delete(`shopping-cart/${user_id}`, {
-        params: {
-          product_id: id
-        },
-        headers: {
-          access_token: token
-        }
-      })
+      try {
+        await api.delete(`shopping-cart/${user_id}`, {
+          params: {
+            product_id: id
+          },
+          headers: {
+            access_token: token
+          }
+        })
+        toast.success(
+          <aside className="p-4">{name} removed</aside>, {
+          position: "top-right"
+        })
+      } catch (error) {
+        console.error(error)
+        toast.error(
+          <aside className="p-4">Error to remove the product</aside>, {
+          position: "top-right"
+        })
+      }
     }
   }
 

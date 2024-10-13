@@ -91,7 +91,7 @@ export default function Header() {
                 <>
                   <Link onClick={() => { setShowDropDownProfile(false) }} to="/profile" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
                   <Link onClick={() => { setShowDropDownProfile(false) }} to="/orders" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
-                  {role === "ADMIN" && <Link onClick={() => { setShowDropDownProfile(false) }} to="/orders" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Products</Link>}
+                  {role === "ADMIN" && <Link onClick={() => { setShowDropDownProfile(false) }} to="/products" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Products</Link>}
                   <button onClick={handleLogout} className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign Out</button>
                 </>
               )}

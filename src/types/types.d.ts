@@ -43,3 +43,4 @@ export type productCartProps = {
   price: number;
   quantity: number;
 }
+

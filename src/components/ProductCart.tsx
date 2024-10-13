@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { productCartProps } from "../types/types"
 import { FaTrash } from "react-icons/fa";
 import { api } from "../lib/api";
@@ -26,6 +26,31 @@ export default function ProductCard({ id, image, name, price, quantity: InitialQ
       })
     }
   }
+
+  const user_id = localStorage.getItem("user_id")
+  const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+
+  // "Error At endpoint to update the cuantity"
+  useEffect(() => {
+    if (quantity !== InitialQuantity) {
+      try {
+        (async () => {
+          await api.patch(`shopping-cart/${user_id}`, {
+            quantity: quantity,
+          }, {
+            headers: {
+              access_token: token
+            },
+            params: {
+              product_id: id
+            }
+          })
+        })()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [quantity, InitialQuantity])
 
   return (
     <div className="flex items-center space-x-4 p-4 bg-white shadow rounded-lg h-32">

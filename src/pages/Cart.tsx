@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { api } from "../lib/api"
-import { cartProduct, localStorageToken, resulCartProducts } from "../types/types"
+import { cartProduct, resulCartProducts } from "../types/types"
 import ProductCart from "../components/ProductCart"
 
 export default function Cart() {
@@ -8,14 +8,14 @@ export default function Cart() {
 
   useEffect(() => {
     try {
-      const token: localStorageToken = JSON.parse(localStorage.getItem("access_token") as string)
+      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
       const user_id = localStorage.getItem("user_id")
       
       if (token) {
         (async () => {
           const { data }: { data: resulCartProducts} = await api.get(`shopping-cart/${user_id}`, {
             headers: {
-              access_token: token?.access_token
+              access_token: token
             },
           })
           setProducts(data.products_includes)

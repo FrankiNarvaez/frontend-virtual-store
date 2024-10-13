@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { api } from "../lib/api"
 import { cartProduct, localStorageToken, resulCartProducts } from "../types/types"
-import ProductCart from "../components/ProductCard"
+import ProductCart from "../components/ProductCart"
 
 export default function Cart() {
   const [products, setProducts] = useState<cartProduct[]>()
@@ -31,6 +31,7 @@ export default function Cart() {
       {products?.map((product) => (
         <ProductCart
           key={product.product.id}
+          id={product.product.id}
           name={product.product.name}
           image={product.product.image}
           price={product.product.price}

@@ -6,7 +6,8 @@ import { responseLogin } from "../types/types";
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [invalidLogin, setInvalidLogin] = useState(false)
+  const [invalidCredential, setInvalidCredentials] = useState(false)
+  const [invalidUser, setInvalidUser] = useState(false)
 
   const navigate = useNavigate()
 
@@ -33,7 +34,9 @@ export default function Login() {
       } 
     } catch (error: any) {
       if (error.response.status === 401) {
-        setInvalidLogin(true)
+        setInvalidCredentials(true)
+      } else if (error.response.status === 400) {
+        setInvalidUser(true)
       } else {
         console.log("Error: ", error)
       }
@@ -67,7 +70,8 @@ export default function Login() {
           </div>
           <button type="submit" className="block w-full p-3 bg-sky-500 hover:bg-sky-700 text-center text-base border-none rounded cursor-pointer my-3 text-white font-semibold">Login</button>
         </form>
-        {invalidLogin && <span className="text-red-500 text-base font-medium">Invalid credentials</span>}
+        {invalidCredential && <span className="text-red-500 text-base font-medium">Invalid credentials</span>}
+        {invalidUser && <span className="text-red-500 text-base font-medium">User not found</span>}
         <div className="text-center mt-4">
           <p>Don't have an account? <Link to="/register" className="text-[#007bff] hover:underline">Register</Link></p>
         </div>

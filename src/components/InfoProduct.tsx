@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { localStorageToken, resultProduct } from "../types/types";
+import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
 import { useParams } from 'react-router-dom'
 
@@ -16,19 +16,18 @@ export default function InfoProduct() {
 
   const handleAddToCart = async () => {
     try {
-      const token: localStorageToken = JSON.parse(localStorage.getItem("access_token") as string)
+      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
       const user_id = localStorage.getItem("user_id")
 
-      const { data } = await api.post(`shopping-cart/add-product/${user_id}`, {
+      await api.post(`shopping-cart/add-product/${user_id}`, {
         product_id: id,
         quantity: 1
       }, {
         headers: {
-          access_token: token?.access_token
+          access_token: token
         },
         
       })
-    console.log(data)
     } catch (error) {
       console.error(error)
     }

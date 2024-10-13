@@ -14,7 +14,10 @@ export default function Header() {
   const [products, setProducts] = useState<resultProduct[]>()
   const [showDropDownProfile, setShowDropDownProfile] = useState(false)
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn")
+  let isLoggedIn = localStorage.getItem("isLoggedIn")
+  if (!isLoggedIn) {
+    isLoggedIn = "false"
+  }
 
   const navigate = useNavigate()
 
@@ -42,6 +45,7 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem("access_token")
     localStorage.removeItem("role")
+    localStorage.removeItem("user_id")
     localStorage.setItem("isLoggedIn","false")
     setShowDropDownProfile(false)
   }
@@ -84,13 +88,13 @@ export default function Header() {
             <div className="absolute top-20 w-32 h-52 bg-white shadow-lg rounded-md p-3 flex flex-col gap-2">
               {isLoggedIn === "true" && (
                 <>
-                  <Link to="/profile" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
-                  <Link to="/orders" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
-                  <button onClick={handleLogout} className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Logout</button>
+                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/profile" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
+                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/orders" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
+                  <button onClick={handleLogout} className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Sign Out</button>
                 </>
               )}
               {isLoggedIn === "false" && (
-                <Link to="/login" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Login</Link>
+                <Link to="/login" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Sign In</Link>
               )}
             </div>
           )}

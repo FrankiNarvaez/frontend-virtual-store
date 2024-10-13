@@ -12,6 +12,9 @@ export default function Header() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<resultProduct[]>()
   const [products, setProducts] = useState<resultProduct[]>()
+  const [showDropDownProfile, setShowDropDownProfile] = useState(false)
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn")
 
   const navigate = useNavigate()
 
@@ -30,12 +33,17 @@ export default function Header() {
     }
   }, [query, results]);
   
-
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setShowDropDown(false)
     navigate(`/search?query=${query}`)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("role")
+    localStorage.setItem("isLoggedIn","false")
+    setShowDropDownProfile(false)
   }
 
   return (
@@ -64,13 +72,32 @@ export default function Header() {
           <Link to="/cart">
             <FaShoppingCart className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />
           </Link>
-          <Link to="/profile">
+          <div 
+            onClick={() => setShowDropDownProfile(!showDropDownProfile)}
+            onBlur={() => {
+              setShowDropDownProfile(false)
+            }}
+          >
             <FaUser className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />
-          </Link>
+          </div>
+          {showDropDownProfile && (
+            <div className="absolute top-20 w-32 h-52 bg-white shadow-lg rounded-md p-3 flex flex-col gap-2">
+              {isLoggedIn === "true" && (
+                <>
+                  <Link to="/profile" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
+                  <Link to="/orders" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
+                  <button onClick={handleLogout} className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Logout</button>
+                </>
+              )}
+              {isLoggedIn === "false" && (
+                <Link to="/login" className="bg-[#e0e0e0] w-full flex justify-center items-center rounded-md py-2">Login</Link>
+              )}
+            </div>
+          )}
         </div>
       </nav>
       {showDropDown && query.length > 0 && (
-        <section className="absolute top-20 left-0 right-0 m-auto w-max bg-white p-4 rounded-md max-h-[80vh] overflow-auto grid gap-4 grid-cols-1 md:grid-cols-2">
+        <section className="border-2 shadow-md absolute top-20 left-0 right-0 m-auto w-max bg-white p-4 rounded-md max-h-[80vh] overflow-auto grid gap-4 grid-cols-1 md:grid-cols-2">
           {products?.map((product) => (
             <Link to={`/product/${product?.id}`} key={product?.id} className="bg-gray-200/60 p-2 rounded-md h-40">
               <img

@@ -19,7 +19,7 @@ export default function Search() {
   })()
 
   return (
-    <section className="grid gap-6 grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-3 px-[5%] lg:px-[10%] 2xl:px-[15%]">
+    <section className="grid gap-6 grid-cols-1 p-20 sm:grid-cols-2 lg:grid-cols-3 px-[5%] lg:px-[10%] 2xl:px-[15%]">
       {products?.map((product) => (
         <Card 
           key={product.id}

@@ -21,7 +21,7 @@ export default function Orders() {
   }, [])
 
   return (
-    <div className="px-[5%] lg:px-[10%] 2xl:px-[15%] mx-auto py-8">
+    <div className="px-[5%] lg:px-[10%] 2xl:px-[15%] mx-auto pt-24">
       {orders?.length === 0 || orders === undefined ? 
         <h3 className="text-center font-bold text-xl">You no have orders, bought some</h3>
       :

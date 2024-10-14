@@ -61,7 +61,7 @@ export default function Cart() {
 
   let total = 0
   return (
-    <section className="px-[5%] lg:px-[10%] 2xl:px-[15%] mt-5 flex flex-col gap-5">
+    <section className="px-[5%] lg:px-[10%] 2xl:px-[15%] pt-24 flex flex-col gap-5">
       {products?.map((product) => {
         total += +product.quantity * +product.product.price;
         return (

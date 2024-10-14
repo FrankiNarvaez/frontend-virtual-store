@@ -1,5 +1,5 @@
 export default function Profile() {
   return (
-    <h3>Este es mi profile</h3>
+    <h3 className="pt-24">Este es mi profile</h3>
   )
 }

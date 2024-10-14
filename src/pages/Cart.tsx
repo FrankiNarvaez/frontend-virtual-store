@@ -78,9 +78,9 @@ export default function Cart() {
       {products?.length === 0 || products === undefined ? 
         <h3 className="text-center font-bold text-xl">You no have products in the cart, lets to add</h3>
       : 
-        <div className="px-10 py-4 rounded-md font-semibold text-lg flex justify-between items-center">
+        <div className="sm:px-10 py-4 rounded-md font-semibold text-lg flex justify-between items-center">
           Total: ${total}
-          <button onClick={handleBuyProducts} className="bg-sky-500 py-2 px-7 rounded-md">Buy Products</button>
+          <button onClick={handleBuyProducts} className="bg-sky-500 hover:bg-sky-700 text-white py-2 px-4 sm:px-7 rounded-md">Buy Products</button>
         </div>
       }
     </section>

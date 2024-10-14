@@ -31,28 +31,6 @@ export default function Search() {
           stock={product.stock}
         />
       ))}
-      {products?.map((product) => (
-        <Card 
-          key={product.id}
-          id={product.id}
-          image={product.image}
-          name={product.name}
-          description={product.description}
-          price={product.price}
-          stock={product.stock}
-        />
-      ))}
-      {products?.map((product) => (
-        <Card 
-          key={product.id}
-          id={product.id}
-          image={product.image}
-          name={product.name}
-          description={product.description}
-          price={product.price}
-          stock={product.stock}
-        />
-      ))}
     </section>
   )
 }

@@ -49,7 +49,9 @@ export default function Header() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setShowDropDown(false)
-    navigate(`/search?query=${query}`)
+    if (query) {
+      navigate(`/search?query=${query}`)
+    }
   }
 
   const handleLogout = () => {

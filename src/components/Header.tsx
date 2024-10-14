@@ -7,6 +7,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
 import UserModal from "./Profile";
+import { User } from "../interfaces/users.interface";
 
 export default function Header() {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -15,6 +16,7 @@ export default function Header() {
   const [products, setProducts] = useState<resultProduct[]>()
   const [showDropDownProfile, setShowDropDownProfile] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
+  const [user, setUser] = useState<User>({})
 
   const role = localStorage.getItem("role")
   let isLoggedIn = localStorage.getItem("isLoggedIn")
@@ -52,6 +54,19 @@ export default function Header() {
     localStorage.setItem("isLoggedIn","false")
     setShowDropDownProfile(false)
   }
+
+  useEffect(() => {
+    const user_id = localStorage.getItem("user_id");
+    const token = JSON.parse(localStorage.getItem("access_token") as string).access_token;
+    (async () => {
+      const { data } = await api.get(`users/${user_id}`, {
+        headers: {
+          access_token: token
+        }
+      })
+      setUser(data)
+    })()
+  }, [])
 
   return (
     <header className="w-full fixed">
@@ -132,14 +147,8 @@ export default function Header() {
       )}
       {showProfileModal && (
         <UserModal
+          user={user}
           onClose={() => setShowProfileModal(false)}
-          user={{
-            name: 'Juan Pérez',
-            email: 'juan@ejemplo.com',
-            password: '********',
-            role: 'usuario'
-          }}
-          onSave={() => console.log("Sabe")}
         />
       )}
     </header>

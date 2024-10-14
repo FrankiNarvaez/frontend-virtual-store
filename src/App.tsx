@@ -9,7 +9,6 @@ import Orders from "./pages/Orders";
 import Cart from "./pages/Cart";
 import Products from "./pages/Products"
 import { useEffect } from "react";
-import { localStorageToken } from "./types/types";
 import { Toaster } from "sonner";
 import AddProduct from "./pages/AddProduct";
 import EditProducts from "./pages/EditProducts";
@@ -21,13 +20,15 @@ function App() {
 
   useEffect(() => {
     const timeNow = new Date()
-    const timeToExpyreToken = localStorage.getItem("access_token") as localStorageToken | null
-    if (timeToExpyreToken) {
-      if (timeNow.getTime() > timeToExpyreToken?.expiry) {
+    const token = localStorage.getItem("access_token")
+    if (token) {
+      const expiry: number = JSON.parse(token).expiry
+      if (timeNow.getTime() > expiry) {
         localStorage.removeItem("access_token")
         localStorage.removeItem("user")
       }
     }
+    
   }, [])
 
   return (

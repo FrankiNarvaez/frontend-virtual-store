@@ -7,7 +7,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Orders from "./pages/Orders";
 import Cart from "./pages/Cart";
-import Profile from "./pages/Profile";
 import Products from "./pages/Products"
 import { useEffect } from "react";
 import { localStorageToken } from "./types/types";
@@ -42,7 +41,6 @@ function App() {
         <Route path="/register" element={ <Register /> } />
         <Route path="/cart" element={ <Cart /> } />
         <Route path="/orders" element={ <Orders /> } />
-        <Route path="/profile" element={ <Profile /> } />
         <Route path="/products" element={ <Products /> }>
           <Route index element={ <EditProducts /> } />
           <Route path="create" element={ <AddProduct /> } />

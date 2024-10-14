@@ -12,6 +12,8 @@ import Products from "./pages/Products"
 import { useEffect } from "react";
 import { localStorageToken } from "./types/types";
 import { Toaster } from "sonner";
+import AddProduct from "./pages/AddProduct";
+import EditProducts from "./pages/EditProducts";
 
 function App() {
   const location = useLocation()
@@ -41,7 +43,10 @@ function App() {
         <Route path="/cart" element={ <Cart /> } />
         <Route path="/orders" element={ <Orders /> } />
         <Route path="/profile" element={ <Profile /> } />
-        <Route path="/products" element={ <Products /> } />
+        <Route path="/products" element={ <Products /> }>
+          <Route index element={ <EditProducts /> } />
+          <Route path="create" element={ <AddProduct /> } />
+        </Route>
       </Routes>
     </>
   )

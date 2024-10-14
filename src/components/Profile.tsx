@@ -1,29 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { User, UserProfile } from '../interfaces/users.interface'
+import { api } from '../lib/api'
+import { toast } from 'sonner'
 
-interface user {
-  name: string
-  email: string
-  password: string
-  role: string
-}
-
-interface ModaluserProps {
-  user: user
-  onClose: () => void
-  onSave: (user: user) => void
-}
-
-export default function Modaluser({ user, onClose, onSave }: ModaluserProps) {
-  const [userEditado, setuserEditado] = useState<user>(user)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setuserEditado(prev => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
+export default function Modaluser( { user, onClose }: UserProfile) {
+  const userEdited: User = {}
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSave(userEditado)
+    try {
+      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+      const { data } = await api.patch(`users/${user?.id}`, {
+        userEdited
+      }, {
+        headers: {
+          access_token: token
+        }
+      })
+      console.log("data", data)
+      console.log("userE", userEdited)
+      toast.success(
+        <aside className="p-4">User has been updated</aside>, {
+        position: "top-right"
+      })
+    } catch (error) {
+      console.error(error)
+      toast.error(
+        <aside className="p-4">{user?.name} couldn't be updated</aside>, {
+        position: "top-right"
+      })
+    }
+    
     onClose()
   }
 
@@ -40,10 +47,9 @@ export default function Modaluser({ user, onClose, onSave }: ModaluserProps) {
               <input
                 type="text"
                 name="name"
-                value={userEditado.name}
-                onChange={handleChange}
+                defaultValue={user?.name}
+                onChange={(e) => userEdited.name = e.target.value}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                required
               />
             </div>
             <div>
@@ -53,10 +59,9 @@ export default function Modaluser({ user, onClose, onSave }: ModaluserProps) {
               <input
                 type="email"
                 name="email"
-                value={userEditado.email}
-                onChange={handleChange}
+                defaultValue={user?.email}
+                onChange={(e) => userEdited.email = e.target.value}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                required
               />
             </div>
             <div>
@@ -66,10 +71,9 @@ export default function Modaluser({ user, onClose, onSave }: ModaluserProps) {
               <input
                 type="password"
                 name="password"
-                value={userEditado.password}
-                onChange={handleChange}
+                defaultValue={user?.password}
+                onChange={(e) => userEdited.password = e.target.value}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                required
               />
             </div>
             <div>
@@ -78,10 +82,9 @@ export default function Modaluser({ user, onClose, onSave }: ModaluserProps) {
               </label>
               <select
                 name="role"
-                value={userEditado.role}
-                onChange={handleChange}
+                defaultValue={user?.role}
+                onChange={(e) => userEdited.role = e.target.value}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                required
               >
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>

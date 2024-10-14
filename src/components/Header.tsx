@@ -8,6 +8,7 @@ import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
 import UserModal from "./Profile";
 import { User } from "../interfaces/users.interface";
+import { toast } from "sonner";
 
 export default function Header() {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -53,20 +54,29 @@ export default function Header() {
     localStorage.removeItem("user_id")
     localStorage.setItem("isLoggedIn","false")
     setShowDropDownProfile(false)
+    toast.success(
+      <aside className="p-4">You are logout</aside>, {
+      position: "top-right"
+    })
   }
 
   useEffect(() => {
-    const user_id = localStorage.getItem("user_id");
-    const token = JSON.parse(localStorage.getItem("access_token") as string).access_token;
-    (async () => {
-      const { data } = await api.get(`users/${user_id}`, {
-        headers: {
-          access_token: token
-        }
-      })
-      setUser(data)
-    })()
-  }, [])
+    if (isLoggedIn !== "false") {
+      const user_id = localStorage.getItem("user_id");
+      const token =  localStorage.getItem("access_token")
+      if (token) {
+        const access_token: string = JSON.parse(token).access_token;
+        (async () => {
+          const { data } = await api.get(`users/${user_id}`, {
+            headers: {
+              access_token: access_token
+            }
+          })
+          setUser(data)
+        })()
+      }
+    }
+  }, [isLoggedIn])
 
   return (
     <header className="w-full fixed">

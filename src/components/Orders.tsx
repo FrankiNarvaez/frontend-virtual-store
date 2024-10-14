@@ -5,7 +5,7 @@ import { Order } from '../interfaces/orders.interface'
 export default function OrderItem(order: Order) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const formatearbought_at = (bought_at: string) => {
+  const formatBought_at = (bought_at: string) => {
     return new Date(bought_at).toLocaleDateString('es-CO', {
       year: 'numeric',
       month: 'long',
@@ -13,7 +13,7 @@ export default function OrderItem(order: Order) {
     })
   }
 
-  const formatearPrecio = (price: number) => {
+  const formatPrecio = (price: number) => {
     return price.toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD'
@@ -28,10 +28,10 @@ export default function OrderItem(order: Order) {
       >
         <div className="flex flex-col items-start">
           <span className="font-semibold text-lg">order #{order.id}</span>
-          <span className="text-sm text-gray-500">{formatearbought_at(order.bought_at)}</span>
+          <span className="text-sm text-gray-500">{formatBought_at(order.bought_at)}</span>
         </div>
         <div className="flex items-center">
-          <span className="font-bold text-lg mr-4">{formatearPrecio(order.total)}</span>
+          <span className="font-bold text-lg mr-4">{formatPrecio(order.total)}</span>
           {isOpen ? <FaChevronUp className="h-5 w-5" /> : <FaChevronDown className="h-5 w-5" />}
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function OrderItem(order: Order) {
               <li key={product.id} className="flex justify-between items-center py-2 border-b last:border-b-0">
                 <span>{product.product.name}</span>
                 <span className="text-gray-600">
-                  {product.quantity} x {formatearPrecio(product.product.price)}
+                  {product.quantity} x {formatPrecio(product.product.price)}
                 </span>
               </li>
             ))}

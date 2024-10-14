@@ -12,10 +12,10 @@ export default function ProductCard({ id, image, name, price, quantity: InitialQ
     setQuantity(isNaN(nuevaCantidad) || nuevaCantidad < 1 ? 1 : nuevaCantidad)
   }
 
+  const user_id = localStorage.getItem("user_id")
+  const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+
   const handleRemove = async () => {
-    const user_id = localStorage.getItem("user_id")
-    const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
-    
     if (user_id) {
       try {
         await api.delete(`shopping-cart/${user_id}`, {
@@ -40,12 +40,8 @@ export default function ProductCard({ id, image, name, price, quantity: InitialQ
     }
   }
 
-  const user_id = localStorage.getItem("user_id")
-  const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
-
-  // "Error At endpoint to update the cuantity"
   useEffect(() => {
-    if (quantity !== InitialQuantity) {
+    if (quantity !== InitialQuantity && quantity > 0) {
       try {
         (async () => {
           await api.patch(`shopping-cart/${user_id}`, {
@@ -66,8 +62,8 @@ export default function ProductCard({ id, image, name, price, quantity: InitialQ
   }, [quantity, InitialQuantity])
 
   return (
-    <div className="flex items-center space-x-4 p-4 bg-white shadow rounded-lg h-32">
-      <div className="flex-shrink-0">
+    <div className="flex items-center justify-around min-[450px]:justify-normal space-x-4 p-4 bg-white shadow rounded-lg h-32">
+      <div>
         <img
           src={image}
           alt={name}
@@ -76,36 +72,37 @@ export default function ProductCard({ id, image, name, price, quantity: InitialQ
           className="rounded-md object-cover"
         />
       </div>
-      <div className="flex-grow">
-        <h3 className="text-lg font-semibold">{name}</h3>
-        <p className="text-gray-600">${price.toFixed(2)}</p>
+      <div className="flex flex-col min-[450px]:flex-row justify-between min-[450px]:w-full">
+        <div className="flex min-[450px]:flex-col items-center min-[450px]:items-start gap-2 min-[450px]:gap-0">
+          <h3 className="text-lg font-semibold">{name}</h3>
+          <p className="text-gray-600">${price.toFixed(2)}</p>
+        </div>
+        <div className="flex items-center space-x-2 justify-center ">
+          <button
+            onClick={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
+            className="bg-sky-500 hover:bg-sky-600 py-0.5 px-2 rounded-md text-white active:scale-95"
+            aria-label="Decrease quantity"
+          >
+            -
+          </button>
+          <input
+            value={quantity}
+            onChange={updateQuantity}
+            className="w-10 text-center border-2 rounded-md"
+            min="1"
+          />
+          <button
+            onClick={() => setQuantity(prev => prev + 1)}
+            className="bg-sky-500 hover:bg-sky-600 py-0.5 px-2 rounded-md text-white active:scale-95"
+            aria-label="Increase quantity"
+          >
+            +
+          </button>
+          <button onClick={handleRemove} className="bg-red-600 hover:bg-red-700 hover:text-gray-100 text-white p-2 rounded-md active:scale-95 min-[450px]:ml-3">
+            <FaTrash />
+          </button>
+        </div>
       </div>
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
-          className="h-8 w-8"
-          aria-label="Disminuir cantidad"
-        >
-          -
-        </button>
-        <input
-          type="number"
-          value={quantity}
-          onChange={updateQuantity}
-          className="w-16 text-center"
-          min="1"
-        />
-        <button
-          onClick={() => setQuantity(prev => prev + 1)}
-          className="h-8 w-8"
-          aria-label="Aumentar cantidad"
-        >
-          +
-        </button>
-      </div>
-      <button onClick={handleRemove}>
-        <FaTrash />
-      </button>
     </div>
   )
 }

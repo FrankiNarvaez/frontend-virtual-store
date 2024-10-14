@@ -9,6 +9,8 @@ import { api } from "../lib/api";
 import UserModal from "./Profile";
 import { User } from "../interfaces/users.interface";
 import { toast } from "sonner";
+import Login from "./Login";
+import Register from "./Register";
 
 export default function Header() {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -17,6 +19,8 @@ export default function Header() {
   const [products, setProducts] = useState<resultProduct[]>()
   const [showDropDownProfile, setShowDropDownProfile] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [user, setUser] = useState<User>({})
 
   const role = localStorage.getItem("role")
@@ -106,9 +110,7 @@ export default function Header() {
           </Link>
           <div 
             onClick={() => setShowDropDownProfile(!showDropDownProfile)}
-            onBlur={() => {
-              setShowDropDownProfile(false)
-            }}
+            
           >
             <FaUser className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />
           </div>
@@ -130,12 +132,16 @@ export default function Header() {
                     Orders
                   </Link>
                   {role === "ADMIN" && 
-                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/products" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Products</Link>}
+                    <Link onClick={() => { setShowDropDownProfile(false) }} to="/products" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Products</Link>
+                  }
                   <button onClick={handleLogout} className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign Out</button>
                 </>
               )}
               {isLoggedIn === "false" && (
-                <Link to="/login" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign In</Link>
+                <>
+                  <button onClick={() => { setShowLoginModal(true); setShowDropDownProfile(false)}} className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign in</button>
+                  <button onClick={() => { setShowRegisterModal(true); setShowDropDownProfile(false)}} className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign up</button>
+                </>
               )}
             </div>
           )}
@@ -159,6 +165,18 @@ export default function Header() {
         <UserModal
           user={user}
           onClose={() => setShowProfileModal(false)}
+        />
+      )}
+      {showLoginModal && (
+        <Login 
+          cancelAction={() => setShowLoginModal(false)} 
+          registerAction={() => setShowRegisterModal(true)}
+        />
+      )}
+      {showRegisterModal && (
+        <Register 
+          cancelAction={() => setShowRegisterModal(false)} 
+          loginAction={() => setShowLoginModal(true)}
         />
       )}
     </header>

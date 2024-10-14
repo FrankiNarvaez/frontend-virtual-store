@@ -16,6 +16,7 @@ export default function App() {
   const location = useLocation()
   const { pathname } = location;
   const role = localStorage.getItem("role")
+  const isLoggedIn = localStorage.getItem("isLoggedIn")
 
   useEffect(() => {
     const timeNow = new Date()
@@ -40,8 +41,8 @@ export default function App() {
         <Route index element={ <Home /> } />
         <Route path='/product/:id' element={ <Product /> } />
         <Route path="/search" element={ <Search /> } />
-        <Route path="/cart" element={ <Cart /> } />
-        <Route path="/orders" element={ <Orders /> } />
+        <Route path="/cart" element={ isLoggedIn === "true" ? <Cart /> : <Navigate to="/" /> } />
+        <Route path="/orders" element={ isLoggedIn === "true" ? <Orders /> : <Navigate to="/" /> } />
         <Route path="/products" element={ role === "ADMIN" ? <Products /> : <Navigate to="/" /> }>
           <Route index element={ <EditProducts /> } />
           <Route path="create" element={ <AddProduct /> } />

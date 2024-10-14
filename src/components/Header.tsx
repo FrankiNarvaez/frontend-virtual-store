@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
 import { resultProduct } from "../types/types";
 import { api } from "../lib/api";
+import UserModal from "./Profile";
 
 export default function Header() {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -13,6 +14,7 @@ export default function Header() {
   const [results, setResults] = useState<resultProduct[]>()
   const [products, setProducts] = useState<resultProduct[]>()
   const [showDropDownProfile, setShowDropDownProfile] = useState(false)
+  const [showProfileModal, setShowProfileModal] = useState(false)
 
   const role = localStorage.getItem("role")
   let isLoggedIn = localStorage.getItem("isLoggedIn")
@@ -89,9 +91,21 @@ export default function Header() {
             <div className="absolute top-20 w-32 h-56 bg-[rgba(3,7,18,0.5)] backdrop-blur-2xl shadow-lg rounded-md p-3 flex flex-col gap-2">
               {isLoggedIn === "true" && (
                 <>
-                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/profile" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Profile</Link>
-                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/orders" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Orders</Link>
-                  {role === "ADMIN" && <Link onClick={() => { setShowDropDownProfile(false) }} to="/products" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Products</Link>}
+                  <button
+                    onClick={() => { setShowDropDownProfile(false); setShowProfileModal(true) }} 
+                    className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2"
+                  >
+                    Profile
+                  </button>
+                  <Link 
+                    onClick={() => { setShowDropDownProfile(false) }} 
+                    to="/orders" 
+                    className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2"
+                  >
+                    Orders
+                  </Link>
+                  {role === "ADMIN" && 
+                  <Link onClick={() => { setShowDropDownProfile(false) }} to="/products" className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Products</Link>}
                   <button onClick={handleLogout} className="text-white text-xl hover:bg-[rgba(3,7,18,0.05)] w-full flex justify-center items-center rounded-md py-2">Sign Out</button>
                 </>
               )}
@@ -115,6 +129,18 @@ export default function Header() {
             </Link>
           ))}
         </section>
+      )}
+      {showProfileModal && (
+        <UserModal
+          onClose={() => setShowProfileModal(false)}
+          user={{
+            name: 'Juan Pérez',
+            email: 'juan@ejemplo.com',
+            password: '********',
+            role: 'usuario'
+          }}
+          onSave={() => console.log("Sabe")}
+        />
       )}
     </header>
   )

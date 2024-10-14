@@ -152,7 +152,7 @@ export default function Header() {
       {showDropDown && query.length > 0 && (
         <section className="border-2 shadow-md absolute top-20 left-0 right-0 m-auto w-max bg-white p-4 rounded-md max-h-[80vh] overflow-auto grid gap-4 grid-cols-1 md:grid-cols-2">
           {products?.map((product) => (
-            <Link to={`/product/${product?.id}`} key={product?.id} className="bg-gray-200/60 p-2 rounded-md h-40">
+            <Link to={`/product/${product?.id}`} key={product?.id} className="bg-gray-200/60 p-2 rounded-md h-auto">
               <img
                 src={product?.image} 
                 alt={product?.name} 

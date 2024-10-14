@@ -5,3 +5,12 @@ export interface ProductFormData {
   stock: number
   image: string
 }
+
+export interface product {
+  description?: string;
+  id?: string;
+  image?: string;
+  name?: string;
+  price?: number;
+  stock?: number;
+}

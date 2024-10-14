@@ -17,22 +17,30 @@ export default function InfoProduct() {
 
   const handleAddToCart = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
-      const user_id = localStorage.getItem("user_id")
+      const isLoggedIn = localStorage.getItem("isLoggedIn")
+      if (isLoggedIn === "true") {
+        const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+        const user_id = localStorage.getItem("user_id")
 
-      await api.post(`shopping-cart/add-product/${user_id}`, {
-        product_id: id,
-        quantity: 1
-      }, {
-        headers: {
-          access_token: token
-        },
-        
-      })
-      toast.success(
-        <aside className="p-4">{product?.name} added to the cart</aside>, {
-        position: "top-right"
-      })
+        await api.post(`shopping-cart/add-product/${user_id}`, {
+          product_id: id,
+          quantity: 1
+        }, {
+          headers: {
+            access_token: token
+          },
+          
+        })
+        toast.success(
+          <aside className="p-4">{product?.name} added to the cart</aside>, {
+          position: "top-right"
+        })
+      } else {
+        toast.error(
+          <aside className="p-4">Sign in to add the product to the cart</aside>, {
+          position: "top-right"
+        })
+      }
     } catch (error) {
       console.error(error)
       toast.error(

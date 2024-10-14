@@ -6,21 +6,29 @@ import { toast } from "sonner";
 export default function Card(props: resultProduct) {
   const handleAddToCart = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
-      const user_id = localStorage.getItem("user_id")
+      const isLoggedIn = localStorage.getItem("isLoggedIn")
+      if (isLoggedIn === "true") {
+        const token = JSON.parse(localStorage.getItem("access_token") as string).access_token
+        const user_id = localStorage.getItem("user_id")
 
-      await api.post(`shopping-cart/add-product/${user_id}`, {
-        product_id: props.id,
-        quantity: 1
-      }, {
-        headers: {
-          access_token: token
-        },
-      })
-      toast.success(
-        <aside className="p-4">{props.name} added to the cart</aside>, {
-        position: "top-right"
-      })
+        await api.post(`shopping-cart/add-product/${user_id}`, {
+          product_id: props.id,
+          quantity: 1
+        }, {
+          headers: {
+            access_token: token
+          },
+        })
+        toast.success(
+          <aside className="p-4">{props.name} added to the cart</aside>, {
+          position: "top-right"
+        })
+      } else {
+        toast.error(
+          <aside className="p-4">Sign in to add the product to the cart</aside>, {
+          position: "top-right"
+        })
+      }
     } catch (error) {
       console.error(error)
       toast.error(

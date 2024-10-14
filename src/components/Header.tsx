@@ -84,6 +84,17 @@ export default function Header() {
     }
   }, [isLoggedIn])
 
+  const handleClickCart = () => {
+    if (isLoggedIn === "true") {
+      navigate("/cart")
+    } else {
+      toast.error(
+        <aside className="p-4">Sign in to add the product to the cart</aside>, {
+        position: "top-right"
+      })
+    }
+  }
+
   return (
     <header className="w-full fixed">
       <nav  className="flex justify-between items-center bg-white py-4 px-[5%] lg:px-[10%] 2xl:px-[15%] shadow-md sticky top-0 z-10 transition-all duration-300 hover:shadow-lg">
@@ -107,9 +118,9 @@ export default function Header() {
           </form>
         </div>
         <div className="flex items-center">
-          <Link to="/cart">
+          <button onClick={handleClickCart}>
             <FaShoppingCart className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />
-          </Link>
+          </button>
           <div 
             onClick={() => setShowDropDownProfile(!showDropDownProfile)}
             

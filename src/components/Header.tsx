@@ -101,22 +101,25 @@ export default function Header() {
         <Link to="/" className="flex items-center">
           <FaStore className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />
         </Link>
-        <div className="flex-grow max-w-[500px] mx-5 my-0 relative">
-          <form onSubmit={handleSubmit}>
+        <div>
+          <form onSubmit={handleSubmit} className="flex">
             <input
-              className="w-full py-2 px-5 border-none rounded-3xl text-base bg-[#f0f4f8] transition-all duration-300 focus:shadow-sm"
+              className="w-[120px] sm:w-full py-2 px-5 rounded-s-3xl text-base bg-[#f0f4f8] transition-all duration-300 focus:w-full"
               type="text"
               placeholder="Search for products..."
               onChange={(e) => { setQuery(e.target.value); setShowDropDown(true); }} 
-              onBlur={() => {
-                setTimeout(() => { setShowDropDown(false) }, 200)
+              onBlur={(e) => {
+                setTimeout(() => { setShowDropDown(false) }, 200);
+                e.target.placeholder = 'Search for products...'
               }}
+              onFocus={(e) => e.target.placeholder = ''}
             />
-            <button type="submit">
-              <IoMdSearch className="absolute text-2xl right-4 -top-1 translate-y-1/2 text-[#7f8c8d] cursor-pointer hover:scale-110" />
+            <button type="submit" className="bg-[#f0f4f8] px-2 rounded-e-3xl">
+              <IoMdSearch className="text-2xl text-[#7f8c8d] cursor-pointer hover:scale-110" />
             </button>
           </form>
         </div>
+
         <div className="flex items-center">
           <button onClick={handleClickCart}>
             <FaShoppingCart className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />

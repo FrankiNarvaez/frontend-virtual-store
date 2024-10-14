@@ -13,6 +13,7 @@ import { localStorageToken } from "./types/types";
 import { Toaster } from "sonner";
 import AddProduct from "./pages/AddProduct";
 import EditProducts from "./pages/EditProducts";
+import AllOrders from "./pages/AllOrders";
 
 function App() {
   const location = useLocation()
@@ -44,6 +45,7 @@ function App() {
         <Route path="/products" element={ <Products /> }>
           <Route index element={ <EditProducts /> } />
           <Route path="create" element={ <AddProduct /> } />
+          <Route path="orders" element={ <AllOrders /> } />
         </Route>
       </Routes>
     </>

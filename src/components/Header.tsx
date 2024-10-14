@@ -52,7 +52,7 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full">
+    <header className="w-full fixed">
       <nav  className="flex justify-between items-center bg-white py-4 px-[5%] lg:px-[10%] 2xl:px-[15%] shadow-md sticky top-0 z-10 transition-all duration-300 hover:shadow-lg">
         <Link to="/" className="flex items-center">
           <FaStore className="text-2xl text-[#34495e] mx-4 cursor-pointer transition-all duration-300 hover:text-[#3498db] hover:scale-105" />

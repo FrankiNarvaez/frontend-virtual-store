@@ -2,4 +2,4 @@ A simple E-commerce, with basic function like see products, login, register, add
 
 Backend of virtual store: https://github.com/FrankiNarvaez/backend-virtual-store
 
-![Virtual Store](https://github.com/FrankiNarvaez/frontend-virtual-store/virtual-store.png)
+![Virtual Store](https://github.com/FrankiNarvaez/frontend-virtual-store/blob/main/virtual-store.png)
